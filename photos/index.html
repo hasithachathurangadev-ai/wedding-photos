@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wedding Photo Collector</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 400px;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            animation: slideIn 0.8s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        p {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        #uploadBtn {
+            background: #ff69b4;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        #uploadBtn:hover {
+            background: #ff1493;
+            box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4);
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        #status {
+            margin-top: 20px;
+            color: #28a745;
+            font-weight: bold;
+            animation: fadeIn 0.5s;
+        }
+
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #ff69b4;
+            border-radius: 50%;
+            animation: float 5s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(-100vh); opacity: 0; }
+        }
+
+        .hearts-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+    <div class="hearts-container"></div>
+    <div class="container">
+        <h1>Wedding Photo Collector</h1>
+        <p>Share your beautiful moments from the wedding! Upload your photos here.</p>
+        <input type="file" id="fileInput" multiple accept="image/*">
+        <button id="uploadBtn">Upload Photos</button>
+        <div id="status"></div>
+    </div>
+
+    <script>
+        // GitHub API Configuration
+        const GITHUB_TOKEN = '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'; // Replace with your GitHub Personal Access Token
+        const REPO_OWNER = 'hasithachathurangadev-ai'; // Replace with your GitHub username
+        const REPO_NAME = 'wedding-photos'; // Replace with your repository name
+        const BRANCH = 'main'; // Replace with your branch name if different
+        const PATH = 'photos'; // Folder in repo where photos will be stored
+
+        // Handle file upload to GitHub
+        async function uploadFile(file) {
+            const status = document.getElementById('status');
+            status.textContent = 'Uploading...';
+
+            // Convert file to base64
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            return new Promise((resolve, reject) => {
+                reader.onload = async () => {
+                    const base64Content = reader.result.split(',')[1];
+                    const filePath = `${PATH}/${Date.now()}_${file.name}`;
+
+                    try {
+                        const response = await fetch(
+                            `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${filePath}`,
+                            {
+                                method: 'PUT',
+                                headers: {
+                                    'Authorization': `token ${GITHUB_TOKEN}`,
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({
+                                    message: `Add ${file.name} via web upload`,
+                                    content: base64Content,
+                                    branch: BRANCH,
+                                }),
+                            }
+                        );
+
+                        if (response.ok) {
+                            status.textContent = 'Photos uploaded successfully!';
+                            resolve();
+                        } else {
+                            status.textContent = 'Upload failed. Please try again.';
+                            reject(new Error('Upload failed'));
+                        }
+                    } catch (error) {
+                        status.textContent = 'Error: ' + error.message;
+                        reject(error);
+                    }
+                };
+                reader.onerror = () => {
+                    status.textContent = 'Error reading file.';
+                    reject(new Error('File read error'));
+                };
+            });
+        }
+
+        // Event listeners
+        document.getElementById('uploadBtn').addEventListener('click', () => {
+            document.getElementById('fileInput').click();
+        });
+
+        document.getElementById('fileInput').addEventListener('change', async (e) => {
+            const files = e.target.files;
+            if (files.length > 0) {
+                for (let file of files) {
+                    await uploadFile(file);
+                }
+            }
+        });
+
+        // Generate floating hearts for animation
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDelay = Math.random() * 2 + 's';
+            document.querySelector('.hearts-container').appendChild(heart);
+            setTimeout(() => heart.remove(), 5000);
+        }
+
+        setInterval(createHeart, 300);
+    </script>
+</body>
+</html>
