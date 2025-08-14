@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wedding Photo Gallery</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #f7e9e9, #f4d7e1);
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 40px;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: #4a2c3e;
+            margin-bottom: 10px;
+            animation: slideIn 0.8s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        p {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .upload-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        #uploadBtn {
+            background: #8b1e3f;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-family: 'Roboto', sans-serif;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        #uploadBtn:hover {
+            background: #a32a50;
+            box-shadow: 0 5px 15px rgba(139, 30, 63, 0.4);
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        #status {
+            margin-top: 20px;
+            font-size: 1.1rem;
+            color: #28a745;
+            font-weight: 500;
+            text-align: center;
+            animation: fadeIn 0.5s;
+        }
+
+        .gallery-section {
+            margin-top: 40px;
+        }
+
+        .gallery-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: #4a2c3e;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .gallery img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .gallery img:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .heart {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background: #ff69b4;
+            border-radius: 50%;
+            animation: float 6s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0); opacity: 0.8; }
+            100% { transform: translateY(-100vh); opacity: 0; }
+        }
+
+        .hearts-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Modal for full-screen image view */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 10px;
+            animation: zoomIn 0.3s ease-in-out;
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="hearts-container"></div>
+    <div class="container">
+        <div class="header">
+            <h1>Wedding Photo Gallery</h1>
+            <p>Capture and share the cherished moments of your special day.</p>
+        </div>
+        <div class="upload-section">
+            <input type="file" id="fileInput" multiple accept="image/*">
+            <button id="uploadBtn">Upload Photos</button>
+        </div>
+        <div id="status"></div>
+        <div class="gallery-section">
+            <h2>Our Memories</h2>
+            <div class="gallery" id="gallery"></div>
+        </div>
+    </div>
+    <div class="modal" id="modal">
+        <span class="modal-close" id="modalClose">&times;</span>
+        <img id="modalImage" src="" alt="Full-size image">
+    </div>
+
+    <script>
+        // GitHub API Configuration
+        const GITHUB_TOKEN = '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'; // Replace with your GitHub Personal Access Token
+        const REPO_OWNER = 'hasithachathurangadev-ai'; // Replace with your GitHub username
+        const REPO_NAME = 'wedding-photos'; // Replace with your repository name
+        const BRANCH = 'main'; // Replace with your branch name if different
+        const PATH = 'photos'; // Folder in repo where photos will be stored
+
+
+        // Fetch and display photos from GitHub
+        async function loadGallery() {
+            const gallery = document.getElementById('gallery');
+            gallery.innerHTML = '<p>Loading gallery...</p>';
+
+            try {
+                const response = await fetch(
+                    `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${PATH}?ref=${BRANCH}`,
+                    {
+                        headers: {
+                            'Authorization': `token ${GITHUB_TOKEN}`,
+                            'Accept': 'application/vnd.github.v3+json',
+                        },
+                    }
+                );
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch photos');
+                }
+
+                const files = await response.json();
+                gallery.innerHTML = '';
+
+                files.forEach(file => {
+                    if (file.type === 'file' && file.name.match(/\.(jpg|jpeg|png|gif)$/i)) {
+                        const img = document.createElement('img');
+                        img.src = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/${BRANCH}/${file.path}`;
+                        img.alt = file.name;
+                        img.addEventListener('click', () => openModal(img.src));
+                        gallery.appendChild(img);
+                    }
+                });
+
+                if (files.length === 0) {
+                    gallery.innerHTML = '<p>No photos available.</p>';
+                }
+            } catch (error) {
+                gallery.innerHTML = '<p>Error loading gallery.</p>';
+                console.error(error);
+            }
+        }
+
+        // Handle file upload to GitHub
+        async function uploadFile(file) {
+            const status = document.getElementById('status');
+            status.textContent = 'Uploading...';
+
+            // Convert file to base64
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            return new Promise((resolve, reject) => {
+                reader.onload = async () => {
+                    const base64Content = reader.result.split(',')[1];
+                    const filePath = `${PATH}/${Date.now()}_${file.name}`;
+
+                    try {
+                        const response = await fetch(
+                            `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${filePath}`,
+                            {
+                                method: 'PUT',
+                                headers: {
+                                    'Authorization': `token ${GITHUB_TOKEN}`,
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({
+                                    message: `Add ${file.name} via web upload`,
+                                    content: base64Content,
+                                    branch: BRANCH,
+                                }),
+                            }
+                        );
+
+                        if (response.ok) {
+                            status.textContent = 'Photos uploaded successfully!';
+                            resolve();
+                            loadGallery();
+                        } else {
+                            status.textContent = 'Upload failed. Please try again.';
+                            reject(new Error('Upload failed'));
+                        }
+                    } catch (error) {
+                        status.textContent = 'Error: ' + error.message;
+                        reject(error);
+                    }
+                };
+                reader.onerror = () => {
+                    status.textContent = 'Error reading file.';
+                    reject(new Error('File read error'));
+                };
+            });
+        }
+
+        // Modal functionality
+        function openModal(src) {
+            const modal = document.getElementById('modal');
+            const modalImage = document.getElementById('modalImage');
+            modalImage.src = src;
+            modal.style.display = 'flex';
+        }
+
+        document.getElementById('modalClose').addEventListener('click', () => {
+            document.getElementById('modal').style.display = 'none';
+        });
+
+        // Event listeners
+        document.getElementById('uploadBtn').addEventListener('click', () => {
+            document.getElementById('fileInput').click();
+        });
+
+        document.getElementById('fileInput').addEventListener('change', async (e) => {
+            const files = e.target.files;
+            if (files.length > 0) {
+                for (let file of files) {
+                    await uploadFile(file);
+                }
+            }
+        });
+
+        // Generate floating hearts for animation
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDelay = Math.random() * 3 + 's';
+            document.querySelector('.hearts-container').appendChild(heart);
+            setTimeout(() => heart.remove(), 6000);
+        }
+
+        setInterval(createHeart, 400);
+
+        // Load gallery on page load
+        window.onload = loadGallery;
+    </script>
+</body>
+</html>
