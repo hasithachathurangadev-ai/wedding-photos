@@ -1,0 +1,65 @@
+[
+  {
+    "id": 1,
+    "title": "The First Dance",
+    "date": "August 14, 2025",
+    "src": "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1738&q=80",
+    "type": "professional"
+  },
+  {
+    "id": 2,
+    "title": "Bride & Groom",
+    "date": "August 14, 2025",
+    "src": "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80",
+    "type": "professional"
+  },
+  {
+    "id": 3,
+    "title": "Wedding Party",
+    "date": "August 14, 2025",
+    "src": "https://images.unsplash.com/photo-1592578889126-44023bde8b04?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80",
+    "type": "professional"
+  },
+  {
+    "id": 4,
+    "title": "Ceremony",
+    "date": "August 14, 2025",
+    "src": "https://images.unsplash.com/photo-1520854221256-17451cc331bf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80",
+    "type": "professional"
+  },
+  {
+    "id": 5,
+    "title": "Reception",
+    "date": "August 14, 2025",
+    "src": "https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80",
+    "type": "professional"
+  },
+  {
+    "id": 6,
+    "title": "Cake Cutting",
+    "date": "August 14, 2025",
+    "src": "https://images.unsplash.com/photo-1532710093739-9470acff878f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80",
+    "type": "professional"
+  },
+  {
+    "id": 7,
+    "title": "Guest Photo: Dancing",
+    "date": "August 14, 2025",
+    "src": "https://images.unsplash.com/photo-1541532713592-79a0317b6b77?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1888&q=80",
+    "type": "guest"
+  },
+  {
+    "id": 8,
+    "title": "Guest Photo: Toast",
+    "date": "August 14, 2025",
+    "src": "https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80",
+    "type": "guest"
+  },
+  {
+    "id": 9,
+    "title": "Guest Photo 9",
+    "date": "August 16, 2025",
+    "src": "https://raw.githubusercontent.com/hasithachathurangadev-ai/wedding-photos/main/photos/1755300028254_1.jpeg",
+    "type": "guest"
+  }
+]
