@@ -61,5 +61,12 @@
     "date": "August 16, 2025",
     "src": "https://raw.githubusercontent.com/hasithachathurangadev-ai/wedding-photos/main/photos/1755300028254_1.jpeg",
     "type": "guest"
+  },
+  {
+    "id": 10,
+    "title": "Guest Photo 10",
+    "date": "August 16, 2025",
+    "src": "https://raw.githubusercontent.com/hasithachathurangadev-ai/wedding-photos/main/photos/1755306708215_1.jpeg",
+    "type": "guest"
   }
 ]
