@@ -1,3 +1,9 @@
 [
- 
+  {
+    "id": 1,
+    "title": "Guest Photo 1",
+    "date": "August 16, 2025",
+    "src": "https://raw.githubusercontent.com/hasithachathurangadev-ai/wedding-photos/main/photos/1755319537128_18.jpeg",
+    "type": "guest"
+  }
 ]
